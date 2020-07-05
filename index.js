@@ -21,18 +21,6 @@ $(function(){
     }
   ];
 
-  function editDetails(e){
-    var $req = $(e.target);
-    var reqId = $req.attr("id");
-    console.log("request id: " +  reqId);
-
-    var reqObj = data.filter(o => o.requestId == reqId);
-    console.log({ details: reqObj });
-
-    // Add a new row (details module) below the selected row in the table.
-
-  }
-
   function hideAll() {
     $(".module").hide();
   }
@@ -46,16 +34,21 @@ $(function(){
     hideAll();
     $(".table-module").show();
 
+    var $tbody = $(".table-module tbody");
+
     for(let i = 0; i < data.length; i++) {
       var rowData = data[i];
-      $(".table-module tbody").append(`
+
+      var $tr = $(`
         <tr>
           <td>${ rowData["requestId"] }</td>
-          <td id="${ rowData["requestId"] }" class="edit-action"> Edit Action </td>
+          <td id="${ rowData["requestId"] }" class="edit-action"> <i class="fa fa-bars" aria-hidden="true"></i> </td>
         </tr>
         `);
+      $tr.find('td.edit-action').click(editDetails);
 
-        $(".edit-action").click(editDetails);
+      $tbody.append($tr);
+
     }
     // Write your code to load data to the table.
 
@@ -66,7 +59,7 @@ $(function(){
   }
 
   function showDetails() {
-
+    $(".details-module").show();
   }
 
   function loginSubmit(e){
@@ -81,16 +74,41 @@ $(function(){
     showTable();
   }
 
+  function editDetails(e){
+    var $td = $(e.target);
+    var reqId = $td.attr("id");
+    console.log("request id: " +  reqId);
+
+    var reqObj = data.filter(o => o.requestId == reqId);
+    console.log({ details: reqObj });
+
+    var $tr = $td.closest('tr');
+
+    var $newTr = $(`<tr>
+      <td colspan="2"></td>
+    </tr>`).insertAfter($tr);
+
+    showDetails();
+    var $detMod = $('div.details-module');
+    $newTr.find('td').append( $detMod );
+
+
+    // Add a new row (details module) below the selected row in the table.
+
+  }
+
   function isLoggedIn() {
     return sessionStorage.getItem("isLoggedIn") == "true";
   }
-
-  $(".login-form").click(loginSubmit);
 
   if ( isLoggedIn() ) {
     showTable();
   } else {
     showLogin();
   }
+
+  $("button[name=login-button]").click(loginSubmit);
+
+  $('button#new-req').click(showForm);
 
 });

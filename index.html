@@ -6,6 +6,7 @@
   <title></title>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
   <!-- <script src="https://use.fontawesome.com/b0a7016859.js"></script> -->
+  <script src="font-icons.js"></script>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
@@ -27,13 +28,15 @@
   <!-- Login Module -->
   <div class="login-module module">
     <form class="login-form">
-      Login Form Display
+      <input type="text" name="username" value="" placeholder="Username">
+      <button type="button" name="login-button">Login</button>
     </form>
     <!-- <i class="fa fa-circle"></i> -->
   </div>
 
   <!-- Table Module -->
   <div class="table-module module">
+    <button id="new-req" type="button" name="button">Add New Request</button>
     <table>
       <thead>
         <tr>
@@ -55,7 +58,11 @@
 
   <!-- Form Module -->
   <div class="form-module module">
-    Form module
+    <i class="fa fa-times"></i>
+    <form class="req-form">
+      <input type="text" name="req-name" value="" placeholder="Request Name">
+      <button type="button" name="req-add-button">Login</button>
+    </form>
   </div>
 
 </body>
