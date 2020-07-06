@@ -21,6 +21,8 @@ $(function(){
     }
   ];
 
+  var selReqObj;
+
   function hideAll() {
     $(".module").hide();
   }
@@ -42,10 +44,15 @@ $(function(){
       var $tr = $(`
         <tr>
           <td>${ rowData["requestId"] }</td>
-          <td id="${ rowData["requestId"] }" class="edit-action"> <i class="fa fa-bars" aria-hidden="true"></i> </td>
+          <td id="${ rowData["requestId"] }">
+            <i class="fa fa-bars edit-action" aria-hidden="true"></i>
+            <i class="fa fa-times close-action" aria-hidden="true"></i>
+          </td>
         </tr>
         `);
-      $tr.find('td.edit-action').click(editDetails);
+
+      $tr.find('td i.edit-action').click(editDetails);
+      $tr.find('td i.close-action').hide();
 
       $tbody.append($tr);
 
@@ -63,24 +70,57 @@ $(function(){
   }
 
   function loginSubmit(e){
-    // var username = $("#username").val();
+    var username = $("#username").val();
     console.log("Login Submitted.");
     sessionStorage.setItem("isLoggedIn", "true");
-    // if(username == "admin-man") {
-    //   //isManager - admin-man
-    // }
-    //isHR - admin-hr
+
+    if(username == "admin-man") {
+      sessionStorage.setItem("isManager", "true");
+    } else if(username == "admin-hr") {
+      sessionStorage.setItem("isHr", "true");
+    }
 
     showTable();
   }
 
+  function isLoggedIn() {
+    return sessionStorage.getItem("isLoggedIn") == "true";
+  }
+
+  function isManager() {
+    return sessionStorage.getItem("isManager") == "true";
+  }
+
+  function isHr() {
+    return sessionStorage.getItem("isHr") == "true";
+  }
+
+  if ( isLoggedIn() ) {
+    showTable();
+  } else {
+    showLogin();
+  }
+
+  function handleIcons($td) {
+    var $table = $td.closest('table')
+    $table.find('i.edit-action').show();
+    $table.find('i.close-action').hide();
+
+    $td.find('i.close-action').show();
+    $td.find('i.edit-action').hide();
+  }
+
   function editDetails(e){
-    var $td = $(e.target);
+    var $td = $(e.target).closest('td');
     var reqId = $td.attr("id");
+
+    handleIcons($td);
+
     console.log("request id: " +  reqId);
 
-    var reqObj = data.filter(o => o.requestId == reqId);
-    console.log({ details: reqObj });
+    selReqObj = data.find(o => o.requestId == reqId);
+
+    console.log({ details: selReqObj });
 
     var $tr = $td.closest('tr');
 
@@ -92,19 +132,8 @@ $(function(){
     var $detMod = $('div.details-module');
     $newTr.find('td').append( $detMod );
 
+    $('label.requestId').text(selReqObj.requestId);
 
-    // Add a new row (details module) below the selected row in the table.
-
-  }
-
-  function isLoggedIn() {
-    return sessionStorage.getItem("isLoggedIn") == "true";
-  }
-
-  if ( isLoggedIn() ) {
-    showTable();
-  } else {
-    showLogin();
   }
 
   $("button[name=login-button]").click(loginSubmit);
