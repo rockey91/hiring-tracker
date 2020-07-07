@@ -41,6 +41,8 @@
       <thead>
         <tr>
           <th>Request ID</th>
+          <th>Manager</th>
+          <th>HR POC</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -54,18 +56,21 @@
   <!-- Details Module -->
   <div class="details-module module">
     <form class="details-form" >
-
-      <label for="">Request ID : </label> <label class="requestId"></label>
-      <button type="button" name="button">Edit</button>
+      <label for="">Request ID : </label> <label class="requestId"></label> <br>
+      <label for="">Manager Name: </label> <label class="managerName"></label> <br>
+      <label for="">Point of Contact: </label> <label class="poc"></label> <br>
+      <button type="button" class="req-details-edit">Edit</button>
     </form>
   </div>
 
   <!-- Form Module -->
   <div class="form-module module">
-    <i class="fa fa-times"></i>
+    <i class="fa fa-times close-form-icon"></i>
     <form class="req-form">
-      <input type="text" name="req-name" value="" placeholder="Request Name">
-      <button type="button" name="req-add-button">Login</button>
+      <label for="requestId">Request ID : </label> <label class="requestId"></label> <br>
+      <label for="">Manager Name: </label> <input type="text" class="managerName" value="" placeholder="Manager Name"> <br>
+      <label for="">Point of Contact: </label> <input type="text" class="poc" value="" placeholder="Point of Contact"> <br>
+      <button type="button" name="req-form-submit">Submit</button>
     </form>
   </div>
 
