@@ -2,6 +2,10 @@ var express = require("express");
 var app = express();
 const fs = require('fs');
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 app.get("/api/getRequestDetails", (req, res, next) => {
 
@@ -13,22 +17,15 @@ app.get("/api/getRequestDetails", (req, res, next) => {
 });
 
 
+
 app.post("/api/addRequest", (req, res, next) => {
 
- // add the new request to data.json file.
- // console.log(req.body);
- // var newReq = req.body;
- var newReq = {
-   "requestId": "1",
-   "poc": "POC-1"
- };
+ var newReq = req.body;
 
  let rawdata = fs.readFileSync('data.json');
  let data = JSON.parse(rawdata);
 
  data.push( newReq );
-
- console.log( data );
 
  let newdata = JSON.stringify(data);
  fs.writeFileSync('data.json', newdata);
