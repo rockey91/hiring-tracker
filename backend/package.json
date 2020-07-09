@@ -1,0 +1,14 @@
+{
+  "name": "hiring_tracker",
+  "version": "1.0.0",
+  "description": "It holds the backend of hiring tracker application.",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "rockey91@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
