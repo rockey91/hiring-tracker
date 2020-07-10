@@ -6,6 +6,19 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+var mysql = require('mysql');
+var con = mysql.createConnection({
+  host: "127.0.0.1",
+  user: "root",
+  password: "@ff19E$P"
+});
+
+// con.connect(function(err) {
+//   if (err) throw err;
+//   console.log("Database Connected!");
+// });
+
+
 
 app.post("/api/authenticate", (req, res, next) => {
 
@@ -52,6 +65,25 @@ app.post("/api/addRequest", (req, res, next) => {
 
  res.json({"status": "success"});
 
+
+ // con.connect(function(err) {
+ //   if (err) throw err;
+ //   console.log("Database Connected!");
+ //
+ //   var sql = `INSERT INTO hiring_tracker.hiring_requests (poc, manager)
+ //              VALUES ('${newReq.poc}', '${newReq.manager}');`;
+ //
+ //   con.query(sql, function (err, result) {
+ //     if (err) {
+ //       throw err;
+ //       res.json({"status": "failure"});
+ //     } else {
+ //       console.log("Result: " + result);
+ //       res.json({"status": "success"});
+ //     }
+ //   });
+ // });
+
 });
 
 
@@ -59,21 +91,21 @@ app.post("/api/addRequest", (req, res, next) => {
 /*
 app.put() = {
 
-  var newObj = req.body;
+  var updateObj = req.body;
 
   let rawdata = fs.readFileSync('../database/data.json');
   let data = JSON.parse(rawdata);
 
   var oldObjIdx;
   var oldObj = data.find(function(obj, ind){
-    if( newObj.requestId == obj.requestId ) {
+    if( updateObj.requestId == obj.requestId ) {
       oldObjIdx = ind;
       return true;
     }
   });
 
   if( oldObj !== undefined ) {
-    data[oldObjIdx] = newObj;
+    data[oldObjIdx] = updateObj;
     let newdata = JSON.stringify(data);
     fs.writeFileSync('../database/data.json', newdata);
     res.json({"status": "success"});
@@ -83,6 +115,7 @@ app.put() = {
 
 }
 */
+
 
 
 
