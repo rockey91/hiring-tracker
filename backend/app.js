@@ -66,22 +66,19 @@ app.post("/api/addRequest", (req, res, next) => {
  res.json({"status": "success"});
 
 
- // con.connect(function(err) {
- //   if (err) throw err;
- //   console.log("Database Connected!");
+ // var sql = `INSERT INTO hiring_tracker.hiring_requests (poc, manager)
+ //            VALUES ('${newReq.poc}', '${newReq.manager}');`;
  //
- //   var sql = `INSERT INTO hiring_tracker.hiring_requests (poc, manager)
- //              VALUES ('${newReq.poc}', '${newReq.manager}');`;
- //
- //   con.query(sql, function (err, result) {
- //     if (err) {
- //       throw err;
- //       res.json({"status": "failure"});
- //     } else {
- //       console.log("Result: " + result);
- //       res.json({"status": "success"});
- //     }
- //   });
+ // con.query(sql, function (err, result) {
+ //   if (err) {
+ //     throw err;
+ //     res.json({"status": "failure"});
+ //     // con.end()
+ //   } else {
+ //     console.log("Result: " + result);
+ //     res.json({"status": "success"});
+ //     // con.end()
+ //   }
  // });
 
 });
