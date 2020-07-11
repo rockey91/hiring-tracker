@@ -197,4 +197,20 @@ $(function(){
 
   // $('table tr td i.close-action:visible').trigger('click');
 
+
+  // Sample API request
+  $.ajax({
+    "url": "http://localhost:3000/api/authenticate",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({"username":"admin","password":"admin@123"}),
+  })
+  .done(function (response) {
+    console.log(response);
+  });
+
+
 });

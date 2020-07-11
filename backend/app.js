@@ -6,6 +6,20 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(function (req, res, next) {
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request headers you wish to allow
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+
+
 var mysql = require('mysql');
 var con = mysql.createConnection({
   host: "127.0.0.1",
@@ -13,16 +27,13 @@ var con = mysql.createConnection({
   password: "@ff19E$P"
 });
 
-// con.connect(function(err) {
-//   if (err) throw err;
-//   console.log("Database Connected!");
-// });
-
 
 
 app.post("/api/authenticate", (req, res, next) => {
 
  var creds = req.body; // { username: <val>, password: <val> }
+
+ console.log(creds);
 
  let rawdata = fs.readFileSync('../database/credentials.json');
  let data = JSON.parse(rawdata);
@@ -40,20 +51,12 @@ app.post("/api/authenticate", (req, res, next) => {
 });
 
 
-app.get("/api/getRequestDetails", (req, res, next) => {
-
- let rawdata = fs.readFileSync('../database/data.json');
- let data = JSON.parse(rawdata);
-
- res.json(data);
-
-});
-
-
 
 app.post("/api/addRequest", (req, res, next) => {
 
  var newReq = req.body;
+
+ console.log(newReq);
 
  let rawdata = fs.readFileSync('../database/data.json');
  let data = JSON.parse(rawdata);
@@ -84,11 +87,23 @@ app.post("/api/addRequest", (req, res, next) => {
 });
 
 
-// updateRequest
-/*
-app.put() = {
+
+app.get("/api/getRequestDetails", (req, res, next) => {
+
+ let rawdata = fs.readFileSync('../database/data.json');
+ let data = JSON.parse(rawdata);
+
+ res.json(data);
+
+});
+
+
+
+app.put("/api/updateRequest", (req, res, next) => {
 
   var updateObj = req.body;
+
+  console.log(updateObj);
 
   let rawdata = fs.readFileSync('../database/data.json');
   let data = JSON.parse(rawdata);
@@ -101,6 +116,7 @@ app.put() = {
     }
   });
 
+
   if( oldObj !== undefined ) {
     data[oldObjIdx] = updateObj;
     let newdata = JSON.stringify(data);
@@ -110,10 +126,7 @@ app.put() = {
     res.json({"status": "failure"});
   }
 
-}
-*/
-
-
+});
 
 
 
