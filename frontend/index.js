@@ -64,7 +64,7 @@ $(function(){
         `);
 
       $tr.find('td i.edit-action').click(editDetails);
-      $tr.find('td i.close-action').click(closeDetails)
+      $tr.find('td i.close-action').click(closeDetails);
       $tr.find('td i.close-action').hide();
 
       $tbody.append($tr);
@@ -127,13 +127,18 @@ $(function(){
     closeDetails();
   }
 
-  function closeDetails(e){
-    $('div.details-module.detail-copy').remove();
-    $('div.form-module.form-copy').remove();
-    if(e) {
-      $('table tr td i.close-action').hide();
-      $('table tr td i.edit-action').show();
+  function closeDetails(closeTR){
+    if ( closeTR ) {
+      $('div.details-module.detail-copy').closest('tr').remove();
+    } else {
+      $('div.details-module.detail-copy').remove();
     }
+    $('div.form-module.form-copy').remove();
+
+
+    $('table tr td i.close-action').hide();
+    $('table tr td i.edit-action').show();
+
   }
 
   function setDetailValues(){
@@ -167,7 +172,7 @@ $(function(){
     setDetailValues(selReqObj);
 
     $detMod.find('.req-details-edit').click(function(){
-      closeDetails();
+      closeDetails(false);
       var $formMod = $('div.form-module').clone();
       $formMod.addClass('form-copy').show();
       $formMod.find('label[for="requestId"], label.requestId').show();
@@ -198,19 +203,39 @@ $(function(){
   // $('table tr td i.close-action:visible').trigger('click');
 
 
-  // Sample API request
-  $.ajax({
-    "url": "http://localhost:3000/api/authenticate",
-    "method": "POST",
-    "timeout": 0,
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "data": JSON.stringify({"username":"admin","password":"admin@123"}),
-  })
-  .done(function (response) {
-    console.log(response);
-  });
+  function authenticate( data ) {
+    // Sample API request
+    $.ajax({
+      "url": "http://localhost:3000/api/authenticate",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": JSON.stringify(data),
+    })
+    .done(function (response) {
+      console.log(response);
+    });
+  }
+  // authenticate( {"username":"admin","password":"admin@123"} );
+  // authenticate( {"username":"guest","password":"guest@123"} );
+
+  function addRequest( data ){
+
+  }
+  // addRequest();
+
+  function getRequests( data ){
+
+  }
+  // getRequests();
+
+  function updateRequest( data ){
+
+  }
+  // updateRequest();
+
 
 
 });

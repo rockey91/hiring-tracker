@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
   <!-- <script src="https://use.fontawesome.com/b0a7016859.js"></script> -->
@@ -22,8 +23,7 @@
   <link rel="stylesheet" href="index.css">
 </head>
 
-<body class="container-fluid">
-
+<body class="container">
 
   <!-- Login Module -->
   <div class="login-module module">
@@ -36,9 +36,9 @@
 
   <!-- Table Module -->
   <div class="table-module module">
-    <button id="new-req" type="button" name="button">Add New Request</button>
-    <table>
-      <thead>
+    <button id="new-req" type="button" name="button" class="btn btn-primary">Add New Request</button>
+    <table class="table">
+      <thead class="thead-dark">
         <tr>
           <th>Request ID</th>
           <th>Manager</th>
@@ -59,7 +59,7 @@
       <label for="">Request ID : </label> <label class="requestId"></label> <br>
       <label for="">Manager Name: </label> <label class="managerName"></label> <br>
       <label for="">Point of Contact: </label> <label class="poc"></label> <br>
-      <button type="button" class="req-details-edit">Edit</button>
+      <button type="button" class="req-details-edit btn btn-primary">Edit</button>
     </form>
   </div>
 
