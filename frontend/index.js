@@ -127,17 +127,14 @@ $(function(){
     closeDetails();
   }
 
-  function closeDetails(closeTR){
-    if ( closeTR ) {
-      $('div.details-module.detail-copy').closest('tr').remove();
-    } else {
-      $('div.details-module.detail-copy').remove();
+  function closeDetails($event){
+    $('div.details-module.detail-copy').closest('tr').remove();
+    $('div.form-module.form-copy').closest('tr').remove();
+
+    if ( $event ) {
+      $('table tr td i.close-action').hide();
+      $('table tr td i.edit-action').show();
     }
-    $('div.form-module.form-copy').remove();
-
-
-    $('table tr td i.close-action').hide();
-    $('table tr td i.edit-action').show();
 
   }
 
@@ -158,7 +155,7 @@ $(function(){
     var $tr = $td.closest('tr');
 
     var $newTr = $(`<tr>
-      <td colspan="2"></td>
+      <td colspan="4"></td>
     </tr>`).insertAfter($tr);
 
     handleIcons($td);
@@ -172,12 +169,18 @@ $(function(){
     setDetailValues(selReqObj);
 
     $detMod.find('.req-details-edit').click(function(){
-      closeDetails(false);
+
+      var $newTr1 = $(`<tr>
+        <td colspan="4"></td>
+      </tr>`).insertAfter($tr);
+
+      closeDetails();
+
       var $formMod = $('div.form-module').clone();
       $formMod.addClass('form-copy').show();
       $formMod.find('label[for="requestId"], label.requestId').show();
       $formMod.find('i.close-form-icon').hide();
-      $newTr.find('td').append( $formMod );
+      $newTr1.find('td').append( $formMod );
       setEditFormValues();
     });
 
