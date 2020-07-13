@@ -55,13 +55,16 @@ app.post("/api/authenticate", (req, res, next) => {
 
 app.post("/api/addRequest", (req, res, next) => {
 
- var newReq = req.body;
+ var newReq = req.body; // { manager: "Man-1", poc: "PPO-232" }
 
  console.log(newReq);
 
  let rawdata = fs.readFileSync('../database/data.json');
  let data = JSON.parse(rawdata);
 
+ // Identify the max(requestID) and increment it by 1.
+ var maxId; //
+ newReq["requestId"] = maxId + 1;
  data.push( newReq );
 
  let newdata = JSON.stringify(data);

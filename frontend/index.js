@@ -103,17 +103,41 @@ $(function(){
   }
 
   function loginSubmit(e){
-    var username = $("#username").val();
+    var $un = $("#username");
+    var username = $un.val();
     console.log("Login Submitted.");
-    sessionStorage.setItem("isLoggedIn", "true");
 
-    if(username == "admin-man") {
-      sessionStorage.setItem("isManager", "true");
-    } else if(username == "admin-hr") {
-      sessionStorage.setItem("isHr", "true");
-    }
+    authenticate({"username": username,"password":"admin@123"}, {
+      success: function(){
+        sessionStorage.setItem("isLoggedIn", "true");
+        if(username == "admin-man") {
+          sessionStorage.setItem("isManager", "true");
+        } else if(username == "admin-hr") {
+          sessionStorage.setItem("isHr", "true");
+        }
+        showTable();
+      },
+      failure: function(){
+        alert("Entered credentials are invalid.");
+        $un.val('');
+      }
+    });
 
-    showTable();
+    // function(){
+    //   if ( validated ) {
+    //     sessionStorage.setItem("isLoggedIn", "true");
+    //     if(username == "admin-man") {
+    //       sessionStorage.setItem("isManager", "true");
+    //     } else if(username == "admin-hr") {
+    //       sessionStorage.setItem("isHr", "true");
+    //     }
+    //     showTable();
+    //   } else {
+    //     alert("Entered credentials are invalid.");
+    //     $un.val('');
+    //   }
+    // }
+
   }
 
   function handleIcons($td) {
@@ -206,7 +230,7 @@ $(function(){
   // $('table tr td i.close-action:visible').trigger('click');
 
 
-  function authenticate( data ) {
+  function authenticate( data, callbacks ) {
     // Sample API request
     $.ajax({
       "url": "http://localhost:3000/api/authenticate",
@@ -219,10 +243,14 @@ $(function(){
     })
     .done(function (response) {
       console.log(response);
+      if ( response.status == 'success' ) {
+        callbacks.success();
+      } else {
+        callbacks.failure();
+      }
+
     });
   }
-  // authenticate( {"username":"admin","password":"admin@123"} );
-  // authenticate( {"username":"guest","password":"guest@123"} );
 
   function addRequest( data ){
 
