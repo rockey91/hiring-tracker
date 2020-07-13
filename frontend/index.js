@@ -107,24 +107,23 @@ $(function(){
     var username = $un.val();
     console.log("Login Submitted.");
 
-    authenticate({"username": username,"password":"admin@123"}, {
-      success: function(){
-        sessionStorage.setItem("isLoggedIn", "true");
-        if(username == "admin-man") {
-          sessionStorage.setItem("isManager", "true");
-        } else if(username == "admin-hr") {
-          sessionStorage.setItem("isHr", "true");
-        }
-        showTable();
-      },
-      failure: function(){
-        alert("Entered credentials are invalid.");
-        $un.val('');
-      }
-    });
+    var validated = authenticate({"username": username,"password":"admin@123"});
 
-    // function(){
-    //   if ( validated ) {
+    if ( validated ) {
+      sessionStorage.setItem("isLoggedIn", "true");
+      if(username == "admin-man") {
+        sessionStorage.setItem("isManager", "true");
+      } else if(username == "admin-hr") {
+        sessionStorage.setItem("isHr", "true");
+      }
+      showTable();
+    } else {
+      alert("Entered credentials are invalid.");
+      $un.val('');
+    }
+
+    // authenticate({"username": username,"password":"admin@123"}, {
+    //   success: function(){
     //     sessionStorage.setItem("isLoggedIn", "true");
     //     if(username == "admin-man") {
     //       sessionStorage.setItem("isManager", "true");
@@ -132,11 +131,12 @@ $(function(){
     //       sessionStorage.setItem("isHr", "true");
     //     }
     //     showTable();
-    //   } else {
+    //   },
+    //   failure: function(){
     //     alert("Entered credentials are invalid.");
     //     $un.val('');
     //   }
-    // }
+    // });
 
   }
 
@@ -227,15 +227,16 @@ $(function(){
   $('.close-form-icon').click(showTable);
 
 
-  // $('table tr td i.close-action:visible').trigger('click');
 
+  function authenticate( data ) {
 
-  function authenticate( data, callbacks ) {
-    // Sample API request
+    var result;
+
     $.ajax({
       "url": "http://localhost:3000/api/authenticate",
       "method": "POST",
       "timeout": 0,
+      "async": false,
       "headers": {
         "Content-Type": "application/json"
       },
@@ -243,14 +244,36 @@ $(function(){
     })
     .done(function (response) {
       console.log(response);
-      if ( response.status == 'success' ) {
-        callbacks.success();
-      } else {
-        callbacks.failure();
-      }
+
+      result = response.status == 'success';
 
     });
+
+    return result;
+
   }
+
+
+  // function authenticate( data, callbacks ) {
+  //   $.ajax({
+  //     "url": "http://localhost:3000/api/authenticate",
+  //     "method": "POST",
+  //     "timeout": 0,
+  //     "headers": {
+  //       "Content-Type": "application/json"
+  //     },
+  //     "data": JSON.stringify(data),
+  //   })
+  //   .done(function (response) {
+  //     console.log(response);
+  //     if ( response.status == 'success' ) {
+  //       callbacks.success();
+  //     } else {
+  //       callbacks.failure();
+  //     }
+  //
+  //   });
+  // }
 
   function addRequest( data ){
 
