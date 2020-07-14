@@ -84,7 +84,28 @@ $(function(){
     selReqObj = undefined;
     $('input.managerName').val('');
     $('input.poc').val('');
+
+    handleForm();
   }
+
+
+  function handleForm(){
+
+    var $form = $(".form-module:visible");
+
+    var $manFields = $form.find('.managerField');
+    var $hrFields = $form.find('.hrField');
+
+    if( isManager() ) {
+      $hrFields.attr("disabled", "disabled");
+    } else if ( isHr() ) {
+      $manFields.attr("disabled", "disabled");
+    } else {
+
+    }
+
+  }
+
 
   function showDetails() {
     $(".details-module").show();

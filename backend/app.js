@@ -34,14 +34,18 @@ app.post("/api/authenticate", (req, res, next) => {
 
  var creds = req.body; // { username: <val>, password: <val> }
 
- console.log(creds);
+ // console.log(creds);
 
  let rawdata = fs.readFileSync('../database/credentials.json');
  let data = JSON.parse(rawdata);
 
+ // console.log(data);
+
  var result = data.find(function(obj){
    return ( obj.username == creds.username && obj.password == creds.password );
  });
+
+ // console.log(result);
 
  if ( result !== undefined ) {
    res.json({"status": "success"});
@@ -61,10 +65,16 @@ app.post("/api/addRequest", (req, res, next) => {
 
  let rawdata = fs.readFileSync('../database/data.json');
  let data = JSON.parse(rawdata);
-
+ let maxId = 0;
  // Identify the max(requestID) and increment it by 1.
- var maxId; //
+ data.forEach(function(obj){
+   let currId = parseInt(obj.requestId);
+   if( maxId < currId ) {
+     maxId = currId;
+   }
+ });
  newReq["requestId"] = maxId + 1;
+
  data.push( newReq );
 
  let newdata = JSON.stringify(data);
